@@ -12,7 +12,7 @@ achieves better or equivalent performance compared to the state-of-the-art super
 recall, undersegmentation error, achievable segmentation accuracy, the average miss rate, average undersegmentation error,
 and average unexplained variation, and it is significantly faster than these approaches.
 
-If you use the USEAQ or USEQ codes for your research, please cite the following papers.
+If you use the USEAQ or USEQ codes (USEQsuperpixel_ICPR.zip) for your research, please cite the following papers.
 
 [1] Chun-Rong Huang, Wei-Cheng Wang, Wei-An Wang, Szu-Yu Lin, and Yen-Yu Lin, "USEAQ: Ultra-fast Superpixel Extraction via Adaptive Sampling from Quantized Regions," accepted by IEEE Transactions on Image Processing, 2018.
 

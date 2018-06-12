@@ -17,3 +17,5 @@ If you use the USEAQ or USEQ codes for your research, please cite the following 
 [1] Chun-Rong Huang, Wei-Cheng Wang, Wei-An Wang, Szu-Yu Lin, and Yen-Yu Lin, "USEAQ: Ultra-fast Superpixel Extraction via Adaptive Sampling from Quantized Regions," accepted by IEEE Transactions on Image Processing, 2018.
 
 [2] Chun-Rong Huang, Wei-An Wang, Szu-Yu Lin, and Yen-Yu Lin, "USEQ: Ultra-Fast Superpixel Extraction via Quantization," in Proc. International Conference on Pattern Recognition, ICPR’16, pp. 1966-1971, Dec. 2016.
+
+The webpage of USEQ is at http://cvml.cs.nchu.edu.tw/USEQ.html 

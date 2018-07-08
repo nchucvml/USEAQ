@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
-#include <iostream>
 #define NORMALIZE 255.0f
 
 std::string lazyResultPath;
@@ -15,7 +14,7 @@ USEAQsuperpixel_TIP::USEAQsuperpixel_TIP(void)
 {
 	m_fTheta = 4;
 	m_fNumCandidates = 0.1f;
-	m_fRefinementMag = 1.0f /2.5f;
+	m_fRefinementMag = 1.0f / 2.5f;
 }
 
 USEAQsuperpixel_TIP::~USEAQsuperpixel_TIP(void)
@@ -27,15 +26,15 @@ bool USEAQsuperpixel_TIP::InitializeSp(cv::Mat &matData, int xNum, int yNum)
 {
 	m_inputTemp = matData.clone();
 
-
 	m_matData = &m_inputTemp;
 
 	resultPath = lazyResultPath;
 
-
-	if (!m_labelData.empty()){ m_labelData.release(); }
+	if (!m_labelData.empty())
+		m_labelData.release();
 	m_labelData = cv::Mat::zeros(m_matData->size(), CV_32S);
-	if (m_imageGrid != nullptr){ delete[]m_imageGrid; m_imageGrid = nullptr; }
+	if (m_imageGrid != nullptr)
+		delete[]m_imageGrid; m_imageGrid = nullptr;
 
 	m_xNum = ((xNum > 0 && xNum <= m_matData->cols) ? xNum : m_xNum);
 	m_yNum = ((yNum > 0 && yNum <= m_matData->rows) ? yNum : m_yNum);
@@ -61,7 +60,6 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 
 	int qtzlv = m_fTheta;
 	int colorQtzize = ceil(255.0f / qtzlv);
-
 
 	begin = (begin == -1 ? 0 : begin);
 	end = (end == -1 ? m_yNum : end);
@@ -98,8 +96,11 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 			int r, g, b;
 			float colorR, colorG, colorB;
 
+
 			float n_tempR, n_tempG, n_tempB;
 			float n_tempX, n_tempY;
+
+
 
 			for (int k = gridPtr->y; k < gridPtr->y + gridPtr->height; k++)
 			{
@@ -114,6 +115,7 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 					colorG = (float)*pixelPtr++;
 					b = (int)(*pixelPtr) / colorQtzize;
 					colorB = (float)*pixelPtr++;
+
 					qtzTable[r][g][b]++;
 					qtzColor[r][g][b][0] = qtzColor[r][g][b][0] + colorR;
 					qtzColor[r][g][b][1] = qtzColor[r][g][b][1] + colorG;
@@ -138,18 +140,20 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 						totalG = qtzColor[idxR][idxG][idxB][1] + totalG;
 						totalB = qtzColor[idxR][idxG][idxB][2] + totalB;
 
-						if (qtzTable[idxR][idxG][idxB] > SUPSZ *m_fNumCandidates)
-						{
+						if (qtzTable[idxR][idxG][idxB] > SUPSZ *m_fNumCandidates) {
 							n_tempR = qtzColor[idxR][idxG][idxB][0] / qtzTable[idxR][idxG][idxB];
 							n_tempG = qtzColor[idxR][idxG][idxB][1] / qtzTable[idxR][idxG][idxB];
 							n_tempB = qtzColor[idxR][idxG][idxB][2] / qtzTable[idxR][idxG][idxB];
 							n_tempX = qtzSpatial[idxR][idxG][idxB][0] / qtzTable[idxR][idxG][idxB];
 							n_tempY = qtzSpatial[idxR][idxG][idxB][1] / qtzTable[idxR][idxG][idxB];
+
 							gridPtr->dominateColorVector[c][0] = n_tempR / NORMALIZE;
 							gridPtr->dominateColorVector[c][1] = n_tempG / NORMALIZE;
 							gridPtr->dominateColorVector[c][2] = n_tempB / NORMALIZE;
+
 							gridPtr->dominateSpatialVector[c][0] = n_tempX / (float)m_xPixelNum;
 							gridPtr->dominateSpatialVector[c][1] = n_tempY / (float)m_yPixelNum;
+
 							gridPtr->dominateLabelSize[c] = qtzTable[idxR][idxG][idxB];
 							gridPtr->dominateLabelCount++;
 							c++;
@@ -165,7 +169,6 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 				gridPtr->dominateColorVector[c][2] = (totalB / gridPtr->size) / NORMALIZE;
 				gridPtr->dominateSpatialVector[c][0] = (gridPtr->x + gridPtr->width / 2.0f) / (float)m_xPixelNum;
 				gridPtr->dominateSpatialVector[c][1] = (gridPtr->y + gridPtr->height / 2.0f) / (float)m_yPixelNum;
-
 			}
 
 			gridPtr->meanVector[0] /= (float)(gridPtr->size);
@@ -178,11 +181,9 @@ bool USEAQsuperpixel_TIP::BuildImageGridbyQuantization(int begin, int end)
 			gridPtr->updateMeanVector[3] = gridPtr->meanVector[3];
 			gridPtr->updateMeanVector[4] = gridPtr->meanVector[4];
 
-
 			gridPtr++;
 		}
 	}
-
 	return true;
 }
 
@@ -295,11 +296,7 @@ void USEAQsuperpixel_TIP::AssignLabel(cv::Mat &labels, float omega, int begin, i
 					float yValue = (float)k / m_yPixelNum;
 
 					int meanVecIndex = 0;
-					int int_Range;
-
-					int_Range = neighborNum;
-
-					for (int m = 0; m < int_Range; m++)
+					for (int m = 0; m < neighborNum; m++)
 					{
 						int neighborX = j + neighborIdxX[m];
 						int neighborY = i + neighborIdxY[m];
@@ -316,7 +313,7 @@ void USEAQsuperpixel_TIP::AssignLabel(cv::Mat &labels, float omega, int begin, i
 							{
 								float tempColorTerm = pow((pixel[0] - neighborGridPtr->dominateColorVector[dominColorInx][0]), 2) + pow((pixel[1] - neighborGridPtr->dominateColorVector[dominColorInx][1]), 2) + pow((pixel[2] - neighborGridPtr->dominateColorVector[dominColorInx][2]), 2);
 
-								float tempDistanceTerm = pow(xValue - (neighborGridPtr->dominateSpatialVector[dominColorInx][0]/*/m_xPixelNum*/), 2) + pow(yValue - (neighborGridPtr->dominateSpatialVector[dominColorInx][1]/*/m_yPixelNum*/), 2);
+								float tempDistanceTerm = pow(xValue - (neighborGridPtr->dominateSpatialVector[dominColorInx][0]), 2) + pow(yValue - (neighborGridPtr->dominateSpatialVector[dominColorInx][1]), 2);
 
 								if (colorTerm  * (1.0f - (omega)) + (distanceTerm* omega)> tempColorTerm* (1.0f - (omega)) + (tempDistanceTerm * omega))
 								{
@@ -326,8 +323,7 @@ void USEAQsuperpixel_TIP::AssignLabel(cv::Mat &labels, float omega, int begin, i
 								}
 							}
 
-
-							float gravitation =1 / (distanceTerm * omega + colorTerm * (1 - (omega)));
+							float gravitation = 1 / (distanceTerm * omega + colorTerm * (1 - (omega)));
 
 							if (maxGravitation < gravitation)
 							{
@@ -377,19 +373,13 @@ void USEAQsuperpixel_TIP::AssignLabel(cv::Mat &labels, float omega, int begin, i
 						maxNeighborGridPtr->updateSize = newSize;
 						gridPtr->updateSize = size;
 					}
-
-
 				}
-
 				pixelPtr += (m_matData->cols - gridPtr->width) * m_matData->channels();
 				labelPtr += (labels.cols - gridPtr->width);
 			}
-
 			gridPtr++;
 		}
 	}
-
-
 }
 
 
@@ -409,7 +399,6 @@ int USEAQsuperpixel_TIP::Cluster(cv::Mat &matData, cv::Mat &labels, int spNum, f
 		this->BuildImageGridbyQuantization();
 		this->AssignLabel(m_labelData, omega);
 	}
-		
 
 	labels = m_labelData;
 
@@ -419,10 +408,10 @@ int USEAQsuperpixel_TIP::Cluster(cv::Mat &matData, cv::Mat &labels, int spNum, f
 	// perform label refinement
 	this->LabelRefinement(m_labelData, m_labelsTemp, relableSpNum, m_xNum * m_yNum, omega);
 
+	if (spData) delete[]spData;
+
 	labels = m_labelsTemp;
 
-	if (spData)
-		delete[]spData;
 	return relableSpNum;
 }
 
@@ -437,23 +426,20 @@ int  USEAQsuperpixel_TIP::ColorQuntization(cv::Mat &matData, cv::Mat &labels, in
 
 void USEAQsuperpixel_TIP::colorQuntization(cv::Mat &_input, cv::Mat &_output, cv::Mat &_label, int dimension)
 {
-	if (_input.empty() == true) 
+	if (_input.empty() == true)
 		return;
 
 	if ((_output.type() != CV_8UC3) || (_output.size() != _input.size()))
 		_output = cv::Mat::zeros(_input.size(), _input.type());
 
-
 	_label = cv::Mat::zeros(_input.size(), CV_32S);
-	if (dimension == 0)  
+	if (dimension == 0)
 		return;
 
 	int quntzNum = dimension;
 
-
 	int qtzlv = dimension;
 	int colorQtzize = ceil(255.0f / qtzlv);
-
 
 	uchar *quntzColor = new uchar[quntzNum];
 	for (int i = 0; i<quntzNum; i++)
@@ -492,8 +478,8 @@ void USEAQsuperpixel_TIP::colorQuntization(cv::Mat &_input, cv::Mat &_output, cv
 //  LabelRefinement  //
 bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels, int &numlabels, const int &K, float omega)
 {
-	if (!m_nlabels.empty()) m_nlabels.release();
-
+	if (!m_nlabels.empty())
+		m_nlabels.release();
 	m_nlabels = cv::Mat(m_labelData.size(), m_labelData.type());
 	int* labels = (int*)m_labels.data;
 	int* nlabels = (int*)m_nlabels.data;
@@ -503,7 +489,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 	int width = m_labels.cols;
 	int height = m_labels.rows;
-	const int sz = width*height;
+	const int sz = width * height;
 	const int SUPSZ = sz / K;
 
 	for (int i = 0; i < sz; i++) nlabels[i] = -1;
@@ -533,7 +519,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 						if ((x >= 0 && x < width) && (y >= 0 && y < height))
 						{
-							int nindex = y*width + x;
+							int nindex = y * width + x;
 
 							if (0 > nlabels[nindex] && labels[oindex] == labels[nindex])
 							{
@@ -551,7 +537,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 		}
 	}
 
-	
+
 	numlabels = label;
 	for (int i = 0; i < sz; i++)
 	{
@@ -576,19 +562,11 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 			if (0 > nlabels[oindex])
 			{
 				nlabels[oindex] = label;
-				float pixelRGB[3] = { 0 };				
+				float pixelRGB[3] = { 0 };
 				uchar *oindexPtr = m_matData->data + (oindex * 3);
 				pixelRGB[0] = (float)*oindexPtr++;
 				pixelRGB[1] = (float)*oindexPtr++;
 				pixelRGB[2] = (float)*oindexPtr++;
-
-				float pixelRGB2[3] = { 0 };
-				uchar *oindexPtr2 = m_matData->data;
-				cv::Mat tempMatt= m_matData->clone();
-				pixelRGB2[0] = tempMatt.at<cv::Vec3b>(3/2,3%2)[0];
-				pixelRGB2[1] = tempMatt.at<cv::Vec3b>(1, 1)[0];
-				pixelRGB2[2] = tempMatt.at<cv::Vec3b>(j, k)[2];
-
 				cv::Point loc(k, j);
 
 				xvec[0] = k;
@@ -604,7 +582,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 						if ((x >= 0 && x < width) && (y >= 0 && y < height))
 						{
-							int nindex = y*width + x;
+							int nindex = y * width + x;
 							uchar *m_matDataPtr = m_matData->data + (nindex * 3);
 
 							if (0 > nlabels[nindex] && labels[oindex] == labels[nindex])
@@ -631,12 +609,14 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 										isFind = true;
 										break;
 									}
+
 								}
 
 								if (isFind != true)
 								{
 									spData[label].neighborLabel.add(labels[nindex]);
 									spData[label].neighborCount++;
+
 								}
 							}
 						}
@@ -645,9 +625,9 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 				spData[label].label = &labelIndex[label];
 
 				//normalized
-				spData[label].meanColor[0] = (float)pixelRGB[0] / (float)count / NORMALIZE; 
+				spData[label].meanColor[0] = (float)pixelRGB[0] / (float)count / NORMALIZE;
 				spData[label].meanColor[1] = (float)pixelRGB[1] / (float)count / NORMALIZE;
-				spData[label].meanColor[2] = (float)pixelRGB[2] / (float)count / NORMALIZE; 
+				spData[label].meanColor[2] = (float)pixelRGB[2] / (float)count / NORMALIZE;
 				spData[label].spCenter.x = (float)loc.x / (float)count / (float)width;
 				spData[label].spCenter.y = (float)loc.y / (float)count / (float)height;
 
@@ -661,8 +641,9 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 		}
 	}
 
+
 	bool  allDone = true;
-	do{
+	do {
 		allDone = true;
 
 		for (int p = 0; p < label; p++)
@@ -721,7 +702,6 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 		}
 	} while (!allDone);
 
-
 	for (int i = 0; i < sz; i++) nlabels[i] = -1;
 	label = 0;
 	oindex = 0;
@@ -746,7 +726,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 						if ((x >= 0 && x < width) && (y >= 0 && y < height))
 						{
-							int nindex = y*width + x;
+							int nindex = y * width + x;
 
 							if (0 > nlabels[nindex] && labels[oindex] == labels[nindex])
 							{
@@ -756,8 +736,10 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 								count++;
 							}
 						}
+
 					}
 				}
+
 				label++;
 			}
 			oindex++;
@@ -792,7 +774,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 						if ((x >= 0 && x < width) && (y >= 0 && y < height))
 						{
-							int nindex = y*width + x;
+							int nindex = y * width + x;
 
 							if (0 > nlabels[nindex] && labels[oindex] == labels[nindex])
 							{
@@ -800,6 +782,7 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 								yvec[count] = y;
 								nlabels[nindex] = label;
 								count++;
+
 							}
 						}
 					}
@@ -812,12 +795,13 @@ bool USEAQsuperpixel_TIP::LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels,
 
 	for (int i = 0; i<sz; i++) labels[i] = nlabels[i];
 	numlabels = label;
-	m_nSP = numlabels;
 
-
-	if (xvec) delete[] xvec;
-	if (yvec) delete[] yvec;
-	if (labelIndex) delete[]labelIndex;
+	if (xvec)
+		delete[] xvec;
+	if (yvec)
+		delete[] yvec;
+	if (labelIndex)
+		delete[]labelIndex;
 	return allDone;
 }
 
@@ -848,8 +832,8 @@ void USEAQsuperpixel_TIP::LabelContourMask(cv::Mat &_labels, cv::Mat &result, in
 
 				if ((x >= 0 && x < width) && (y >= 0 && y < height))
 				{
-					int* neighborPtr = (int*)_labels.data + y*width + x;
-					uchar* contourNeighborPtr = (uchar*)_contour.data + y*width + x;
+					int* neighborPtr = (int*)_labels.data + y * width + x;
+					uchar* contourNeighborPtr = (uchar*)_contour.data + y * width + x;
 
 
 					if (*labelPtr != *neighborPtr)
@@ -895,12 +879,11 @@ void USEAQsuperpixel_TIP::LabelContourMask(cv::Mat &_labels, cv::Mat &result, in
 bool USEAQsuperpixel_TIP::Label2Color(cv::Mat &label, cv::Mat &output)
 {
 	if (label.empty()) return false;
-	if (label.type() != CV_32S){ label.convertTo(label, CV_32S); }
+	if (label.type() != CV_32S) { label.convertTo(label, CV_32S); }
 	double min, max;
 	cv::minMaxLoc(label, &min, &max);
-
 	max++;
-	if (max<0){ return false; }
+	if (max<0) { return false; }
 	output = cv::Mat::zeros(label.size(), CV_8UC3);
 
 	float start, stop;
@@ -908,11 +891,11 @@ bool USEAQsuperpixel_TIP::Label2Color(cv::Mat &label, cv::Mat &output)
 	cv::vector<cv::Vec3b> color(max);
 	cv::RNG rng = cv::theRNG();
 	cv::Vec3b *colorPtr = color.data();
-	int nspcount = 0;
 	for (int i = 0; i<max; i++)
 	{
 		cv::Vec3b newcolor(rng(255), rng(255), rng(255));
 		(*colorPtr++) = newcolor;
+
 	}
 
 	cv::Vec3b* outputPtr = (cv::Vec3b*)output.data;
@@ -935,7 +918,6 @@ bool USEAQsuperpixel_TIP::Label2Color(cv::Mat &label, cv::Mat &output)
 	}
 	color.clear();
 	color.shrink_to_fit();
-
 	return 0;
 }
 

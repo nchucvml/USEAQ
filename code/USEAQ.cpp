@@ -1,4 +1,4 @@
-// USEAQsuperpixel_TIP.cpp : 定義主控台應用程式的進入點。
+// USEQsuperpixel_TIP.cpp : 定義主控台應用程式的進入點。
 //
 #include "stdafx.h"
 #include "USEAQsuperpixel_TIP.h"
@@ -22,7 +22,7 @@ bool FileFind(std::vector<std::string> &filePath, std::string setInputpath)
 	CString findPath = (setInputpath + "\\*.jpg").c_str();
 	int nIsFind = findFile.FindFile((LPCTSTR)findPath);
 
-	if (!nIsFind){
+	if (!nIsFind) {
 		findPath = (setInputpath + "\\*.png").c_str();
 		nIsFind = findFile.FindFile((LPCTSTR)findPath);
 	}
@@ -69,7 +69,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//please refer to Section IV-B. Parameter Selection for more detail
 	float m_fTheta = 4.0;
 	float m_fNumCandidates = 10.0;
-	float para_fOmega = 0.01;	
+	float para_fOmega = 0.01;
 	//////////////////////////////////////////////////////////////////////////	
 
 	//////////////////////////////////////////////////////////////////////////
@@ -80,21 +80,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool op_bShowResults = false;//whether to show results in different colour and contoured image on window
 
 	//the path of image folder
-	string path_strImageFolderPath = "D://TienJi//20180611_TIP//Dataset//BSDS//data//images//allimage";
+	string path_strImageFolderPath = "E://TienJi//TIP_Dataset//BSDS//data//images//allimage";
 	//string path_strImageFolderPath = "D://TienJi//2018_TIP//Dataset//Different Resolution//resolution_1440";
-	//string path_strImageFolderPath = "D://TienJi//2018_TIP//Dataset//SBD//images//test";
+	//string path_strImageFolderPath = "E://TienJi//TIP_Dataset//SBD//images//test";
 
 	//the path of result folder
-	string path_strResultFolder ="D://TienJi//20180611_TIP//Result//BSDS";
-	
+	string path_strResultFolder = "E://TienJi//TIP_Dataset//Result//BSDS";
+
 	// number of superpixels
-  	vint_superpixelNum.push_back(25);
-  	vint_superpixelNum.push_back(50);
-  	vint_superpixelNum.push_back(100);
-  	vint_superpixelNum.push_back(250);
-  	vint_superpixelNum.push_back(500);
-  	vint_superpixelNum.push_back(1000);
- 	vint_superpixelNum.push_back(2500);	
+	vint_superpixelNum.push_back(25);
+	vint_superpixelNum.push_back(50);
+	vint_superpixelNum.push_back(100);
+	vint_superpixelNum.push_back(250);
+	vint_superpixelNum.push_back(500);
+	vint_superpixelNum.push_back(1000);
+	vint_superpixelNum.push_back(2500);
 
 	//scan jpgs or pngs in the dataset
 	FileFind(findFileName, path_strImageFolderPath);
@@ -112,9 +112,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//set up bpf file which will be used in BSDS evaluation
 	std::fstream txtFileTemp;
-	txtFileTemp.open(path_strResultFolder +"//"+"bpf.txt", std::ios::out);
+	txtFileTemp.open(path_strResultFolder + "//" + "bpf.txt", std::ios::out);
 	//may require changes to run evaluation, the evaluation will scan the folder {BSDS500_root}\images\{mode}\*.jpg for imgs and {BSDS500_root}\groundTruth\{mode}\*.mat for gt
-	txtFileTemp << "mode                allimages\n"; 
+	txtFileTemp << "mode                allimage\n";
 	txtFileTemp << "BSDS500_root " << path_strImageFolderPath << "\n";
 	txtFileTemp << "nImages             500\n";
 	txtFileTemp << "algResSavePath      " << path_strResultFolder << "\n";
@@ -139,19 +139,19 @@ int _tmain(int argc, _TCHAR* argv[])
 			string fileName = findFileName[fl_intFileIdx]; fileName.erase(fileName.size() - 4, 4);
 			string resultPath = (spNumberDir + "//" + fileName);
 			string labelPath, colorLabelPath, contourPath;
-			Mat matInputImg = imread(path_strImageFolderPath + "//" +findFileName[fl_intFileIdx]); 
+			Mat matInputImg = imread(path_strImageFolderPath + "//" + findFileName[fl_intFileIdx]);
 			Mat matOriInput = matInputImg.clone();
 			Mat matLabel, matColourImg, matBoundedImg;
 			Mat matQtzLabel, matQtzColorLabel;
-		
+
 			//-------------------------------------------------------------------------------------------
 			//In terms of colour, BuildImageGridbyQuantization only samples when over grid * (1.0f / float(m_fNumCandidates))
-			doUSEAQ.m_fNumCandidates = (1.0f / float(m_fNumCandidates));		
+			doUSEAQ.m_fNumCandidates = (1.0f / float(m_fNumCandidates));
 			//During the merge process in LabelRefinement, is has to be larger than grid * (1.0f / float(2.5)) to not merge with other superpixel
-			doUSEAQ.m_fRefinementMag = (1.0f / float(2.5));		
+			doUSEAQ.m_fRefinementMag = (1.0f / float(2.5));
 			doUSEAQ.m_fTheta = m_fTheta;
 			cv::medianBlur(matInputImg, matInputImg, 3);
-			
+
 			double	t = (double)cv::getTickCount();
 			doUSEAQ.Cluster(matInputImg, matLabel, vint_superpixelNum[fl_intNumSPIdx], para_fOmega, bParallelBoosting);
 
@@ -159,12 +159,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			t = ((double)cv::getTickCount() - t) / cv::getTickFrequency();
 			time = time + t;
 
-			if(fl_intFileIdx%500 == 0)
-				std::cout <<  "Number of superpixel : "<<vint_superpixelNum[fl_intNumSPIdx] <<", "<< fl_intFileIdx << "___Totaltime: " << time << std::endl;
-					
+			if (fl_intFileIdx % 500 == 0)
+				std::cout << "Number of superpixel : " << vint_superpixelNum[fl_intNumSPIdx] << ", " << fl_intFileIdx << "___Totaltime: " << time << std::endl;
+
 			if (op_bStoreLabelImage == true) {
 				matLabel.convertTo(matLabel, CV_16U);
-				
+
 				labelPath = resultPath + ".png";
 				imwrite(labelPath, matLabel);
 			}
@@ -177,7 +177,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 				if (op_bShowResults == true)
 					imshow("Contoured Image", matBoundedImg);
-				
+
 				contourPath = resultPath + "_bi.png";
 				imwrite(contourPath, matBoundedImg);
 			}
@@ -193,7 +193,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			if (op_bShowResults == true)
 				cvWaitKey(0);
 		}
-		cout << "------------Total time cost: " << time << "\t Average time: " << time / int_imgs <<endl;
+		cout << "------------Total time cost: " << time << "\t Average time: " << time / int_imgs << endl;
 		timeRecoard.push_back(time / int_imgs);
 	}
 	std::fstream txtTimeRecord;
@@ -203,11 +203,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		txtTimeRecord << "spNum:" << vint_superpixelNum[w] << "    aveTime:" << timeRecoard[w] << std::endl;
 	}
 	txtTimeRecord.close();
-
 	timeRecoard.clear();
 
 	system("pause");
 	return 0;
 }
+
 
 

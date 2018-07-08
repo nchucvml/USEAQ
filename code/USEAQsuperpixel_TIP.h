@@ -9,14 +9,11 @@
 #include <fstream>
 #include <iostream>
 
-
 class USEAQsuperpixel_TIP
 {
 private:
-
 	struct CGrid
 	{
-
 		int x;
 		int y;
 		int width;
@@ -39,7 +36,6 @@ private:
 public:
 	class SPdata
 	{
-
 	public:
 		cv::Point2f spCenter;
 		int neighborCount;
@@ -49,9 +45,9 @@ public:
 		float meanColor[3];
 		int *label;
 		int size;
-		bool isKill;		
-		SPdata() :neighborLabel(500), belongThisLabel(100), neighborCount(0), belongCount(0), isKill(false){}
-		~SPdata(){}
+		bool isKill;
+		SPdata() :neighborLabel(500), belongThisLabel(100), neighborCount(0), belongCount(0), isKill(false) {}
+		~SPdata() {}
 	};
 
 public:
@@ -59,7 +55,6 @@ public:
 	float m_fRefinementMag;
 	float m_fNumCandidates;
 	int  m_fTheta;
-	double m_nSP;
 
 private:
 	cv::Mat *m_matData;
@@ -81,7 +76,7 @@ private:
 	class BuildGridParallel : public cv::ParallelLoopBody
 	{
 	private:
-		USEAQsuperpixel_TIP *_KDClusterNspPtr;
+		USEAQsuperpixel_TIP * _KDClusterNspPtr;
 
 	public:
 		BuildGridParallel(USEAQsuperpixel_TIP *KDClusterNspPtr)
@@ -96,7 +91,7 @@ private:
 	class BuildGridbyQuantizationParallel : public cv::ParallelLoopBody
 	{
 	private:
-		USEAQsuperpixel_TIP *_KDClusterNspPtr;
+		USEAQsuperpixel_TIP * _KDClusterNspPtr;
 
 	public:
 		BuildGridbyQuantizationParallel(USEAQsuperpixel_TIP *KDClusterNspPtr)
@@ -132,15 +127,11 @@ private:
 	bool BuildImageGrid(int begin = -1, int end = -1);
 	bool BuildImageGridbyQuantization(int begin = -1, int end = -1);
 	void colorQuntization(cv::Mat &_input, cv::Mat &_output, cv::Mat &_label, int dimension);
-
 	void AssignLabel(cv::Mat &labels, float omega, int begin = -1, int end = -1);
-
-	bool LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels, int &numlabels, const int &K,float omega);
-
+	bool LabelRefinement(cv::Mat &m_labels, cv::Mat &m_nlabels, int &numlabels, const int &K, float omega);
 
 public:
 	int Cluster(cv::Mat &matData, cv::Mat &labels, int spNum, float omega = 0.01, bool tbbBoost = true);
-
 	int  ColorQuntization(cv::Mat &matData, cv::Mat &labels, int qtzLV = 3);
 	bool Label2Color(cv::Mat &label, cv::Mat &output);
 	void LabelContourMask(cv::Mat &_labels, cv::Mat &result, int index, bool thick_line = true);

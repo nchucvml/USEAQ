@@ -1,0 +1,30 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (20180618_TIP_USEAQ_GitHub.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  USEAQsuperpixel_TIP.cpp
+e:\tienji\20180618_tip_useaq_github\opencv\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+E:\TienJi\20180618_TIP_USEAQ_GitHub\opencv\include\opencv2/legacy/compat.hpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+e:\tienji\20180618_tip_useaq_github\20180618_tip_useaq_github\USEAQsuperpixel_TIP.h(115): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(62): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(157): warning C4244: '=': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(391): warning C4244: '引數': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(390): warning C4101: 't': 未參考的區域變數
+USEAQsuperpixel_TIP.cpp(442): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(671): warning C4244: '=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(686): warning C4244: '引數': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(693): warning C4244: '引數': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(891): warning C4244: '引數': 將 'double' 轉換為 'unsigned __int64'，由於類型不同，可能導致資料遺失
+USEAQsuperpixel_TIP.cpp(889): warning C4101: 'start': 未參考的區域變數
+USEAQsuperpixel_TIP.cpp(889): warning C4101: 'stop': 未參考的區域變數
+  stdafx.cpp
+  USEAQ.cpp
+e:\tienji\20180618_tip_useaq_github\opencv\include\opencv2\flann\dist.h : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+E:\TienJi\20180618_TIP_USEAQ_GitHub\opencv\include\opencv2/legacy/compat.hpp : warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+e:\tienji\20180618_tip_useaq_github\20180618_tip_useaq_github\USEAQsuperpixel_TIP.h(115): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+USEAQ.cpp(72): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+USEAQ.cpp(105): warning C4267: '正在初始化': 將 'size_t' 轉換為 'int'，資料可能遺失
+USEAQ.cpp(152): warning C4244: '=': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+USEAQ.cpp(160): warning C4244: '=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+  正在產生程式碼
+  All 751 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成程式碼產生
+  20180618_TIP_USEAQ_GitHub.vcxproj -> E:\TienJi\20180618_TIP_USEAQ_GitHub\x64\Release\20180708_TIP_USEAQ_GitHub.exe
+  20180618_TIP_USEAQ_GitHub.vcxproj -> E:\TienJi\20180618_TIP_USEAQ_GitHub\x64\Release\20180708_TIP_USEAQ_GitHub.pdb (Full PDB)

@@ -1,8 +1,6 @@
 # USEAQ
 USEAQ: Ultra-fast Superpixel Extraction via Adaptive Sampling from Quantized Regions
 
-IMPORTANT NOTE: We are optimizing the source code of USEAQ. The current version will be modifed in the near future for better computational efficiency.
-
 Abstract—We present a novel and highly efficient superpixel extraction method called USEAQ to generate regular and compact
 superpixels in an image. To reduce the computational cost of iterative optimization procedures adopted in most recent
 approaches, the proposed USEAQ for superpixel generation works in a one-pass fashion. It firstly performs joint spatial

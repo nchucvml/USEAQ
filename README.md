@@ -14,6 +14,9 @@ and average unexplained variation, and it is significantly faster than these app
 
 If you use the USEAQ or USEQ codes (USEQsuperpixel_ICPR.zip) for your research, please cite the following papers.
 
+The evaluation of Stanford Background Dataset please refer to https://davidstutz.de/projects/superpixel-benchmark/
+The evaluation of BSDS500  please refer to https://www.tu-chemnitz.de/etit/proaut/en/research/superpixel.html
+
 [1] Chun-Rong Huang, Wei-Cheng Wang, Wei-An Wang, Szu-Yu Lin, and Yen-Yu Lin, "USEAQ: Ultra-fast Superpixel Extraction via Adaptive Sampling from Quantized Regions,"  IEEE Transactions on Image Processing, vol. 27, no. 10, pp. 4916-4931, Oct. 2018. 
 
 [2] Chun-Rong Huang, Wei-An Wang, Szu-Yu Lin, and Yen-Yu Lin, "USEQ: Ultra-Fast Superpixel Extraction via Quantization," in Proc. International Conference on Pattern Recognition, ICPR’16, pp. 1966-1971, Dec. 2016.

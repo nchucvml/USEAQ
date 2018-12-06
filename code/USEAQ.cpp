@@ -74,18 +74,24 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//////////////////////////////////////////////////////////////////////////
 	//set up path, number of sp and output
-	bool op_bStoreLabelImage = false;//whether to store the superpixel extraction result stored in int16
-	bool op_bStoreColourImage = false;//whether to store the superpixel extraction result presented in different colour
-	bool op_bStoreBoundedImage = false;//whether to store the superpixel extraction result presented by drawing the contour on the original image
+	bool op_bStoreLabelImage = true;//whether to store the superpixel extraction result stored in int16
+	bool op_bStoreColourImage = true;//whether to store the superpixel extraction result presented in different colour
+	bool op_bStoreBoundedImage = true;//whether to store the superpixel extraction result presented by drawing the contour on the original image
 	bool op_bShowResults = false;//whether to show results in different colour and contoured image on window
 
 	//the path of image folder
-	string path_strImageFolderPath = "E://TienJi//TIP_Dataset//BSDS//data//images//allimage";
+	//string path_strImageFolderPath = "E://TienJi//TIP_Dataset//BSDS//data//images//allimage";
 	//string path_strImageFolderPath = "D://TienJi//2018_TIP//Dataset//Different Resolution//resolution_1440";
 	//string path_strImageFolderPath = "E://TienJi//TIP_Dataset//SBD//images//test";
+	string path_strImageFolderPath;
+	std::cout << "Enter Image Folder Path" <<std::endl;
+	cin >> path_strImageFolderPath;
 
 	//the path of result folder
-	string path_strResultFolder = "E://TienJi//TIP_Dataset//Result//BSDS";
+	//string path_strResultFolder = "E://TienJi//TIP_Dataset//Result//BSDS";
+	string path_strResultFolder;
+	std::cout << "Enter Output Folder Path" << std::endl;
+	cin >> path_strResultFolder;
 
 	// number of superpixels
 	vint_superpixelNum.push_back(25);

@@ -12,7 +12,9 @@ achieves better or equivalent performance compared to the state-of-the-art super
 recall, undersegmentation error, achievable segmentation accuracy, the average miss rate, average undersegmentation error,
 and average unexplained variation, and it is significantly faster than these approaches.
 
-![image](http://cvml.cs.nchu.edu.tw/researches/USEQ/Fig_Flowchart.png)
+* Flowchart of USEAQ
+
+![image](https://github.com/nchucvml/USEAQ/blob/master/Fig_Flowchart.png)
 
 * If you use the USEAQ or USEQ codes (USEQsuperpixel_ICPR.zip) for your research, please cite the following papers.
 
